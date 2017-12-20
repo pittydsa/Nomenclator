@@ -11,9 +11,9 @@ import android.widget.TextView;
  */
 
 public class SingleMessageView extends ConstraintLayout {
-    private Button button4;
-    private TextView textView3;
-    private TextView textView4;
+    private Button button;
+    private TextView textView;
+    private TextView textView2;
 
     public SingleMessageView(Context context) {
         super(context);
@@ -31,6 +31,9 @@ public class SingleMessageView extends ConstraintLayout {
     }
 
     private void init() {
-
+        inflate(getContext(), R.layout.single_message_view, this);
+        button = findViewById(R.id.button3);
+        textView = findViewById(R.id.textView);
+        textView2 = findViewById(R.id.textView2);
     }
 }

@@ -33,6 +33,7 @@ public class PersonAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         if (convertView == null) {
+
         }
         return null;
     }
