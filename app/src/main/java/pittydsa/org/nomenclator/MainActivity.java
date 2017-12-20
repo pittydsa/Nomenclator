@@ -50,10 +50,15 @@ public class MainActivity extends AppCompatActivity {
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
             SmsManager smsManager = SmsManager.getDefault();
+            for (Person person : Person.people) {
+                smsManager.sendTextMessage(person.getPhoneNumber(), null, person.getName(), null, null);
+            }
             smsManager.sendTextMessage("+12679925122", null, "thisisawesome", null, null);
 
         }
     }
+
+//    private String formatMessage(Person person, String message)
 
     /**
      * This method is public because it is safe. It takes an array of people
