@@ -20,25 +20,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-        // ArrayAdapter<Person> adapter;
-        // adapter = new ArrayAdapter<>(this, R.layout.activity_main, R.id.scrollView,
-        //        Person.people);
-
-        // ScrollView sv = findViewById(R.id.scrollView);
+    /**
+     * This method initializes 30 copies of David Ankin in Person.java and
+     * puts them into the view.
+     */
+    public void showTestPeople(View view) {
         Person.init();
         Person[] people = Person.people;
-        // LinearLayout linearLayout = findViewById(R.id.roster);
+        showPeopleInRoster(people);
+    }
 
-        //
+    public void sendAll(View view) {
+        Person[] people = Person.people;
+        
+    }
 
+    /**
+     * This method is public because it is safe. It takes an array of people
+     * and writes their values into newly minted "SingleMessageView"s and
+     * adds them into the linearLayout.
+     */
+    public void showPeopleInRoster(Person[] people) {
         // find view so we know where to draw the SingleMessageView
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.roster);
         for (Person person : people) {
             View view = inflateSMV(person);
             linearLayout.addView(view);
-        }
-        
+        }        
     }
 
     private View inflateSMV(Person person) {
