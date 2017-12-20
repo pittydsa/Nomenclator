@@ -32,17 +32,29 @@ public class MainActivity extends AppCompatActivity {
 
         //
 
+        // find view so we know where to draw the SingleMessageView
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.roster);
-        View layout2 = getLayoutInflater().inflate(R.layout.single_message_view, linearLayout, false);
+        for (Person person : people) {
+            View view = inflateSMV(person);
+            linearLayout.addView(view);
+        }
+        
+    }
 
-        Button button = (Button) layout2.findViewById(R.id.button);
-        TextView textView  = (TextView) layout2.findViewById(R.id.textView);
-        TextView textView2 = (TextView) layout2.findViewById(R.id.textView2);
+    private View inflateSMV(Person person) {
+        // find view so we know how big to draw it
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.roster);
+        View sMV = getLayoutInflater().inflate(R.layout.single_message_view, linearLayout, false);
+
+        //
+        Button button      = (Button) sMV.findViewById(R.id.button);
+        TextView textView  = (TextView) sMV.findViewById(R.id.textView);
+        TextView textView2 = (TextView) sMV.findViewById(R.id.textView2);
 
         // button.setText();
         textView.setText(people[0].getName());
         textView2.setText(people[0].getPhoneNumber());
 
-        linearLayout.addView(layout2);
+        return sMV;
     }
 }
