@@ -20,8 +20,7 @@ public class MessageFormatterTest {
         SampleClass sampleClass = new SampleClass();
         MessageFormatter messageFormatter = new MessageFormatter("i am a message template here me roar, %user%! i will never stop, %user,%, %user%, despite my typos.");
         String result = messageFormatter.getMessage(sampleClass);
-        System.out.println(result);
-        //i am a message template here me roar, ok! i will never stop, %user,%, ok, despite my typos.
+        assertEquals("i am a message template here me roar, John! i will never stop, %user,%, John, despite my typos.", result);
         assertEquals(4, 2 + 2);
     }
 
