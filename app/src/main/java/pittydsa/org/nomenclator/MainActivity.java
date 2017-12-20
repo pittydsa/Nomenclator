@@ -1,15 +1,13 @@
 package pittydsa.org.nomenclator;
 
-import android.database.DataSetObserver;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import static pittydsa.org.nomenclator.Person.people;
@@ -34,7 +32,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendAll(View view) {
         Person[] people = Person.people;
+        String[] permissions = new String[] {Manifest.permission.SEND_SMS};
+
+        ActivityCompat.requestPermissions(this, permissions, 0);
+        // if (ContextCompat.checkSelfPermission(this,
+        //     Manifest.permission.SEND_SMS) !=
+        //     PackageManager.PERMISSION_GRANTED) {
+            
+        // }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+            String permissions[], int[] grantResults) {
         
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage("+12679925122", null, "thisisawesome", null, null);
+
+        }
     }
 
     /**
