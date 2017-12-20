@@ -36,4 +36,9 @@ public class SingleMessageView extends ConstraintLayout {
         textView = findViewById(R.id.textView);
         textView2 = findViewById(R.id.textView2);
     }
+
+    public void setPersonDetail(Person person) {
+        button.setText(person.getName());
+        textView.setText(person.getPhoneNumber());
+    }
 }

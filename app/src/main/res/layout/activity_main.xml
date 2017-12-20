@@ -42,9 +42,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/roster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <include
                 layout="@layout/single_message_view"
                 android:layout_width="wrap_content"
