@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Nomenclator.iml" filepath="$PROJECT_DIR$/Nomenclator.iml" />
-      <module fileurl="file://C:\Users\cscadmin\AndroidStudioProjects\Nomenclator\Nomenclator.iml" filepath="C:\Users\cscadmin\AndroidStudioProjects\Nomenclator\Nomenclator.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\cscadmin\AndroidStudioProjects\Nomenclator\app\app.iml" filepath="C:\Users\cscadmin\AndroidStudioProjects\Nomenclator\app\app.iml" />
     </modules>
   </component>
 </project>
