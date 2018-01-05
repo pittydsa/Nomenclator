@@ -2,6 +2,7 @@ package pittydsa.org.nomenclator;
 
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -34,13 +35,20 @@ public class MainActivity extends AppCompatActivity {
         Person[] people = Person.people;
         String[] permissions = new String[] {Manifest.permission.SEND_SMS};
 
-        ActivityCompat.requestPermissions(this, permissions, 0);
-        // if (ContextCompat.checkSelfPermission(this,
-        //     Manifest.permission.SEND_SMS) !=
-        //     PackageManager.PERMISSION_GRANTED) {
-            
-        // }
+
+        if (ContextCompat.checkSelfPermission(this,
+            Manifest.permission.SEND_SMS) !=
+            PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, 0);
+        } else {
+            sendAllHavePermissions();
+        }
     }
+
+     public void sendAllHavePermissions() {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage("+12679925122", null, "thisisawesome", null, null);
+     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -48,13 +56,7 @@ public class MainActivity extends AppCompatActivity {
         
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            SmsManager smsManager = SmsManager.getDefault();
-            for (Person person : Person.people) {
-                smsManager.sendTextMessage(person.getPhoneNumber(), null, person.getName(), null, null);
-            }
-            smsManager.sendTextMessage("+12679925122", null, "thisisawesome", null, null);
-
+            sendAllHavePermissions();
         }
     }
 
@@ -83,10 +85,12 @@ public class MainActivity extends AppCompatActivity {
         Button button      = (Button) sMV.findViewById(R.id.button);
         TextView textView  = (TextView) sMV.findViewById(R.id.textView);
         TextView textView2 = (TextView) sMV.findViewById(R.id.textView2);
+        TextView textView3 = (TextView) sMV.findViewById(R.id.textView3);
 
         // button.setText();
-        textView.setText(people[0].getName());
-        textView2.setText(people[0].getPhoneNumber());
+        textView.setText(person.getName());
+        textView2.setText(person.getPhoneNumber());
+        textView3.setText(person.toString());
 
         return sMV;
     }
