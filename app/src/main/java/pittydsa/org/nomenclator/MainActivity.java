@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import static pittydsa.org.nomenclator.Person.people;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
      public void sendAllHavePermissions() {
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage("+12679925122", null, "thisisawesome", null, null);
+         for (Person p :
+                 Person.people) {
+             ArrayList<String> parts = smsManager.divideMessage(p.toString());
+             smsManager.sendMultipartTextMessage(p.getPhoneNumber(), null, parts, null, null);
+         }
      }
 
     @Override
