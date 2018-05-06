@@ -2,6 +2,7 @@ package pittydsa.org.nomenclator;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.telephony.SmsManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ public class SingleMessageView extends RelativeLayout {
     private TextView textView;
     private TextView textView2;
     private TextView textView3;
+    private Person person;
     private AsyncTask<Object, Void, String> sendMessage;
 
     public SingleMessageView(Context context) {
@@ -45,6 +47,7 @@ public class SingleMessageView extends RelativeLayout {
             }
         });
 
+        this.person = person;
         textView.setText(person.getName());
         textView2.setText(person.getPhoneNumber());
         textView3.setText(person.toString());
@@ -59,39 +62,6 @@ public class SingleMessageView extends RelativeLayout {
             button.setEnabled(false);
             sendMessage.execute();
         }
-    }
-
-    private MainActivity parent = null;
-
-    public void assignButtonClick(MainActivity p) {
-        this.parent = p;
-        button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                parent = null;
-            }
-        });
-    }
-
-    public void setPersonDetail(Person person) {
-        button.setText(person.getName());
-        textView.setText(person.getPhoneNumber());
-    }
-
-    public Button getButton() {
-        return button;
-    }
-
-    public TextView getTextView() {
-        return textView;
-    }
-
-    public TextView getTextView2() {
-        return textView2;
-    }
-
-    public TextView getTextView3() {
-        return textView3;
     }
 
     private class SendMessage extends AsyncTask<Object, Void, String> {
