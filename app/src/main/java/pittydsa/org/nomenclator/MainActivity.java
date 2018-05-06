@@ -1,18 +1,16 @@
 package pittydsa.org.nomenclator;
 
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,8 +29,47 @@ public class MainActivity extends AppCompatActivity {
      */
     public void showTestPeople(View view) {
         Person.init();
-        Person[] people = Person.people;
-        showPeopleInRoster(people);
+        if (linearLayout == null)
+            linearLayout = (LinearLayout) findViewById(R.id.roster);
+
+        if (linearLayout.getChildCount() == 0 || allSameStatus()) {
+            linearLayout.removeAllViews();
+            showPeopleInRoster(Person.people);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setMessage("Some of these messages are sent, still proceed?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    linearLayout.removeAllViews();
+                    showPeopleInRoster(Person.people);
+                    dialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        }
+    }
+
+    private boolean allSameStatus() {
+        SingleMessageView singleMessageView, other;
+        int count = linearLayout.getChildCount();
+
+        singleMessageView = (SingleMessageView) linearLayout.getChildAt(0);
+        AsyncTask.Status status = singleMessageView.getStatus();
+        for (int i = 1; i < count; i++) {
+            other = (SingleMessageView) linearLayout.getChildAt(i);
+            AsyncTask.Status status1 = other.getStatus();
+            if (!status.equals(status1))
+                return false;
+        }
+        return true;
     }
 
     public void sendAll(View view) {

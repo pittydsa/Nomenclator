@@ -50,9 +50,15 @@ public class SingleMessageView extends RelativeLayout {
         textView3.setText(person.toString());
     }
 
+    public AsyncTask.Status getStatus() {
+        return sendMessage.getStatus();
+    }
+
     public void sendSingleMessage() {
-        button.setEnabled(false);
-        sendMessage.execute();
+        if (getStatus() == AsyncTask.Status.PENDING) {
+            button.setEnabled(false);
+            sendMessage.execute();
+        }
     }
 
     private MainActivity parent = null;
