@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Nomenclator</string>
     <string name="refresh">Get Crowd</string>
+    <string name="replace">Replace Crowd</string>
     <string name="sendAll">Send Messages</string>
     <string name="send">Send</string>
     <string name="message">Hello, %name%! Catchy slogans and appeal to pacifism failed to stop the fascists from winning in this election and will fail to stop them in the future. The only way to stop them is for the left to refect the neo liberal democrats and embrace armed revolution and class war! Will you join me, comrade %name%, or will you perish like a dog?</string>

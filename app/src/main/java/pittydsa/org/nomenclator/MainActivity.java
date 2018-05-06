@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,13 +29,11 @@ public class MainActivity extends AppCompatActivity {
      * puts them into the view.
      */
     public void showTestPeople(View view) {
-        Person.init();
         if (linearLayout == null)
             linearLayout = (LinearLayout) findViewById(R.id.roster);
 
         if (linearLayout.getChildCount() == 0 || allSameStatus()) {
-            linearLayout.removeAllViews();
-            showPeopleInRoster(Person.people);
+            replacePeople();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -42,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    linearLayout.removeAllViews();
-                    showPeopleInRoster(Person.people);
+                    replacePeople();
                     dialog.dismiss();
                 }
             });
@@ -55,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
             });
             builder.show();
         }
+    }
+
+    private void replacePeople() {
+        Person.init();
+        linearLayout.removeAllViews();
+        showPeopleInRoster(Person.people);
+        Button button = (Button) findViewById(R.id.button);
+        button.setText(R.string.replace);
     }
 
     private boolean allSameStatus() {
