@@ -89,18 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         SingleMessageView sMV = (SingleMessageView) getLayoutInflater()
                 .inflate(R.layout.single_message_view, linearLayout, false);
-        sMV.init();
-
-        Button button      = sMV.getButton();
-        TextView textView  = sMV.getTextView();
-        TextView textView2 = sMV.getTextView2();
-        TextView textView3 = sMV.getTextView3();
-
-        // button.setText();
-        textView.setText(person.getName());
-        textView2.setText(person.getPhoneNumber());
-        textView3.setText(person.toString());
-
+        sMV.init(person);
         return sMV;
     }
 }

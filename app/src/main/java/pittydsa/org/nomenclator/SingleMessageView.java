@@ -31,7 +31,7 @@ public class SingleMessageView extends RelativeLayout {
         super(context, attrs, defStyle);
     }
 
-    public void init() {
+    public void init(Person person) {
         button = findViewById(R.id.button3);
         textView = findViewById(R.id.textView);
         textView2 = findViewById(R.id.textView2);
@@ -44,6 +44,10 @@ public class SingleMessageView extends RelativeLayout {
                 sendSingleMessage();
             }
         });
+
+        textView.setText(person.getName());
+        textView2.setText(person.getPhoneNumber());
+        textView3.setText(person.toString());
     }
 
     public void sendSingleMessage() {
