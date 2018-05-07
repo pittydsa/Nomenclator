@@ -68,26 +68,30 @@ public class ConfigurationScreen extends AppCompatActivity {
             private View view;
 
             private void callback(String response) {
-                Configuration c = Configuration.parseResponse(response);
+                try {
+                    Configuration c = Configuration.parseResponse(response);
 
-                StringBuilder msg = new StringBuilder();
-                if (c.getStatus().equals("ok")) {
-                    msg.append("Success: ");
+                    StringBuilder msg = new StringBuilder();
+                    if (c.getStatus().equals("ok")) {
+                        msg.append("Success: ");
 
-                    if (c.getItem().getMessage().length() > 10)
-                        msg.append(c.getItem().getMessage().substring(0, 9) + "...");
-                    else
-                        msg.append(c.getItem().getMessage());
-                    msg.append(", to send to ");
-                    msg.append(c.getItem().getPeople().length);
-                    msg.append(" people.");
+                        if (c.getItem().getMessage().length() > 10)
+                            msg.append(c.getItem().getMessage().substring(0, 9) + "...");
+                        else
+                            msg.append(c.getItem().getMessage());
+                        msg.append(", to send to ");
+                        msg.append(c.getItem().getPeople().length);
+                        msg.append(" people.");
+                    }
+
+                    Snackbar.make(view, msg.toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null)
+                            .show();
+                    use.setEnabled(true);
+                    fetched = c;
+                } catch (Exception e) {
+                    errorCallback("");
                 }
-
-                Snackbar.make(view, msg.toString(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .show();
-                use.setEnabled(true);
-                fetched = c;
             }
 
             private void errorCallback(String error) {

@@ -24,6 +24,15 @@ public class MainActivity extends AppCompatActivity {
 
         // get permissions here
         requestSMSPermissions();
+
+        Object o = getIntent().getExtras().get(ConfigurationScreen.class.toString());
+        System.out.println(o.toString());
+        Configuration c = (Configuration) o;
+        Configuration.Item.Person people[] = c.getItem().getPeople();
+        Person.people = new Person[people.length];
+        for (int i = 0; i < people.length; i++) {
+            Person.people[i] = new Person(people[i].getName(), people[i].getPhone());
+        }
     }
 
     private void requestSMSPermissions() {
