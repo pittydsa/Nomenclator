@@ -6,6 +6,16 @@ package pittydsa.org.nomenclator;
  */
 public class Person {
     /**
+     * Message before name
+     */
+    public static String message1;
+
+    /**
+     * Message after name
+     */
+    public static String message2;
+
+    /**
      * This is the place where MainActivity uses for people storage
      */
     public static Person[] people = null;
@@ -38,6 +48,10 @@ public class Person {
 
     @Override
     public String toString() {
-        return name.substring(0, 4) + phoneNumber;
+        StringBuilder sb = new StringBuilder();
+        sb.append(message1);
+        sb.append(name);
+        sb.append(message2);
+        return sb.toString();
     }
 }

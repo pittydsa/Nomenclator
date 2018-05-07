@@ -69,18 +69,21 @@ public class ConfigurationScreen extends AppCompatActivity {
 
             private void callback(String response) {
                 try {
-                    Configuration c = Configuration.parseResponse(response);
+                    pittydsa.org.nomenclator.Response r = Configuration.parseResponse(response);
+                    Configuration c = r.getItem();
 
                     StringBuilder msg = new StringBuilder();
-                    if (c.getStatus().equals("ok")) {
+                    if (r.getStatus().equals("ok")) {
                         msg.append("Success: ");
 
-                        if (c.getItem().getMessage().length() > 10)
-                            msg.append(c.getItem().getMessage().substring(0, 9) + "...");
+                        String message = c.getMessage1() + c.getMessage2();
+
+                        if (message.length() > 10)
+                            msg.append(message.substring(0, 9) + "...");
                         else
-                            msg.append(c.getItem().getMessage());
+                            msg.append(message);
                         msg.append(", to send to ");
-                        msg.append(c.getItem().getPeople().length);
+                        msg.append(c.getPeople().length);
                         msg.append(" people.");
                     }
 

@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
         Object o = getIntent().getExtras().get(ConfigurationScreen.class.toString());
         System.out.println(o.toString());
         Configuration c = (Configuration) o;
-        Configuration.Item.Person people[] = c.getItem().getPeople();
+        Configuration.Person people[] = c.getPeople();
+        Person.message1 = c.getMessage1();
+        Person.message2 = c.getMessage2();
         Person.people = new Person[people.length];
         for (int i = 0; i < people.length; i++) {
             Person.people[i] = new Person(people[i].getName(), people[i].getPhone());

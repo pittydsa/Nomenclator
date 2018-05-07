@@ -25,8 +25,9 @@ public class Configuration implements Serializable {
         in.readFully(buf);
         String json = new String(buf, Charset.forName("ASCII"));
         Configuration c = gson.fromJson(json, Configuration.class);
-        item = c.getItem();
-        status = c.getStatus();
+        message1 = c.getMessage1();
+        message2 = c.getMessage2();
+        people = c.getPeople();
     }
 
     private void readObjectNoData() throws ObjectStreamException {
@@ -34,58 +35,40 @@ public class Configuration implements Serializable {
         };
     }
 
-    private String status;
-    private Configuration.Item item;
+    private String message1;
+    private String message2;
+    private Configuration.Person people[];
 
-    public String getStatus() {
-        return status;
+    public String getMessage1() {
+        return message1;
     }
-
-    public Configuration.Item getItem() {
-        return item;
+    public String getMessage2() {
+        return message2;
     }
+    public Configuration.Person[] getPeople() { return people; }
 
-    public static class Item {
-        private String message;
-        private Item.Person people[];
+    public static class Person {
+        private String name;
+        private String phone;
 
-        @Override
-        public String toString() {
-            return "Saying message '" + message + "' to " + people.length + " people";
+        public String getName() {
+            return name;
         }
 
-        public String getMessage() {
-            return message;
-        }
-
-        public Item.Person[] getPeople() {
-            return people;
-        }
-
-        public static class Person {
-            private String name;
-            private String phone;
-
-            public String getName() {
-                return name;
-            }
-
-            public String getPhone() {
-                return phone;
-            }
+        public String getPhone() {
+            return phone;
         }
     }
 
     public static void main(String args[]) {
-        String testString = "{\"status\":\"ok\",\"item\":{\"message\":\"hello nope\",\"people\":[{\"name\":\"Sona\",\"phone\":\"+12679925122\"},{\"name\":\"Cara\",\"phone\":\"+14123433434\"}]}}";
+        String testString = "{\"status\":\"ok\",\"item\":{\"message1\":\"Hi, \",\"message2\":\"! This is a test.\",\"people\":[{\"name\":\"a\",\"phone\":\"+12679925122\"},{\"name\":\"b\",\"phone\":\"+12679925122\"},{\"name\":\"c\",\"phone\":\"+12679925122\"},{\"name\":\"d\",\"phone\":\"+12679925122\"},{\"name\":\"a\",\"phone\":\"+12679925122\"},{\"name\":\"b\",\"phone\":\"+12679925122\"},{\"name\":\"c\",\"phone\":\"+12679925122\"},{\"name\":\"d\",\"phone\":\"+12679925122\"},{\"name\":\"a\",\"phone\":\"+12679925122\"},{\"name\":\"b\",\"phone\":\"+12679925122\"},{\"name\":\"c\",\"phone\":\"+12679925122\"},{\"name\":\"d\",\"phone\":\"+12679925122\"}],\"password\":\"b9198f6070\"}}";
 
-        System.out.println("hello world");
-        Gson gson = new Gson();
-        Configuration c = gson.fromJson(testString, Configuration.class);
-        System.out.println(c.getStatus());
-        System.out.println(c.getItem().toString());
-        Configuration.Item.Person[] people = c.getItem().getPeople();
-        for (Configuration.Item.Person p :
+
+        Configuration c = Configuration.parseResponse(testString).getItem();
+        System.out.println(Configuration.parseResponse(testString).getStatus());
+        System.out.println(c.toString());
+        Configuration.Person[] people = c.getPeople();
+        for (Configuration.Person p :
                 people) {
             System.out.println(p.toString());
         }
@@ -93,7 +76,20 @@ public class Configuration implements Serializable {
 
     public static final Gson gson = new Gson();
 
-    public static Configuration parseResponse(String response) {
-        return gson.fromJson(response, Configuration.class);
+    public static Response parseResponse(String response) {
+        return gson.fromJson(response, Response.class);
+    }
+}
+
+class Response {
+    private String status;
+    private Configuration item;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public Configuration getItem() {
+        return item;
     }
 }
