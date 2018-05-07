@@ -9,9 +9,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,6 +27,7 @@ public class ConfigurationScreen extends AppCompatActivity {
     private EditText listId;
     private EditText password;
     private TextView errorText;
+    private Button use;
 
     private String getURL() {
         return "http://ankin.info:3035/config?id=" + listId.getText();
@@ -40,23 +43,44 @@ public class ConfigurationScreen extends AppCompatActivity {
         listId = findViewById(R.id.listId);
         password = findViewById(R.id.password);
         errorText = findViewById(R.id.errorText);
+        use = findViewById(R.id.use);
+        use.setEnabled(false);
 
         requestInternetPermissions();
         queue = Volley.newRequestQueue(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             private View view;
 
             private void callback(String response) {
-                String msg = "Here's a Snackbar" + response;
-                Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
+                Configuration c = Configuration.parseResponse(response);
+
+                StringBuilder msg = new StringBuilder();
+                if (c.getStatus().equals("ok")) {
+                    msg.append("Success: ");
+
+                    if (c.getItem().getMessage().length() > 10)
+                        msg.append(c.getItem().getMessage().substring(0, 9) + "...");
+                    else
+                        msg.append(c.getItem().getMessage());
+                    msg.append(", to send to ");
+                    msg.append(c.getItem().getPeople().length);
+                    msg.append(" people.");
+                }
+
+                Snackbar.make(view, msg.toString(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null)
                         .show();
+                use.setEnabled(true);
             }
 
             private void errorCallback(String error) {
                 errorText.setText(error);
+                use.setEnabled(false);
+                Snackbar.make(view, R.string.fetchError, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null)
+                        .show();
             }
 
             @Override
@@ -76,6 +100,9 @@ public class ConfigurationScreen extends AppCompatActivity {
                                 errorCallback(error.getMessage());
                             }
                         });
+                stringRequest.setRetryPolicy(
+                        new DefaultRetryPolicy(1800, 0, 1)
+                );
                 queue.add(stringRequest);
             }
         });
