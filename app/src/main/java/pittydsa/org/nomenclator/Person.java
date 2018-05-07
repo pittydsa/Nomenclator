@@ -15,22 +15,10 @@ public class Person {
      * should probably initialize an empty array to prevent null pointer.
      */
     public static void init() {
-        people = new Person[15];
+        people = new Person[2];
         people[0] = new Person("David Ankin", "+12679925122");
         people[1] = new Person("David Ankin", "+12679925122");
-         people[2] = new Person("David Ankin", "+12679925122");
-         people[3] = new Person("David Ankin", "+12679925122");
-         people[4] = new Person("David Ankin", "+12679925122");
-         people[5] = new Person("David Ankin", "+12679925122");
-         people[6] = new Person("David Ankin", "+12679925122");
-         people[7] = new Person("David Ankin", "+12679925122");
-         people[8] = new Person("David Ankin", "+12679925122");
-         people[9] = new Person("David Ankin", "+12679925122");
-         people[10] = new Person("David Ankin", "+12679925122");
-         people[11] = new Person("David Ankin", "+12679925122");
-         people[12] = new Person("David Ankin", "+12679925122");
-         people[13] = new Person("David Ankin", "+12679925122");
-         people[14] = new Person("David Ankin", "+12679925122");
+
         // people[15] = new Person("David Ankin", "+12679925122");
         // people[16] = new Person("David Ankin", "+12679925122");
         // people[17] = new Person("David Ankin", "+12679925122");

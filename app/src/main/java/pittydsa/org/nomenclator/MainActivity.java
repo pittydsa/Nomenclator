@@ -21,11 +21,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         linearLayout = (LinearLayout) findViewById(R.id.roster);
+
+        // get permissions here
+        requestSMSPermissions();
+    }
+
+    private void requestSMSPermissions() {
+        String[] permissions = new String[] {Manifest.permission.SEND_SMS};
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, 0);
+        }
     }
 
     /**
-     * This method initializes 30 copies of David Ankin in Person.java and
-     * puts them into the view.
+     * The Crowd button callback.
+     *
+     * This method contains the logic for getting the people from the people
+     * class into the view if the ones there are all same status. otherwise,
+     * ask for confirmation.
      */
     public void showTestPeople(View view) {
         if (linearLayout == null)
@@ -78,24 +93,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendAll(View view) {
-        String[] permissions = new String[] {Manifest.permission.SEND_SMS};
-
-        if (ContextCompat.checkSelfPermission(this,
-            Manifest.permission.SEND_SMS) !=
-            PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, permissions, 0);
-        } else {
+        try {
             sendAllHavePermissions();
+        } catch (RuntimeException security) {
+            requestSMSPermissions();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
             String permissions[], int[] grantResults) {
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            sendAllHavePermissions();
-        }
+        System.out.println("Got Permission!");
     }
 
     public void sendAllHavePermissions() {
