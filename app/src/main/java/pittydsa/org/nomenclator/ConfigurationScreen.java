@@ -1,5 +1,6 @@
 package pittydsa.org.nomenclator;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.Serializable;
+
 public class ConfigurationScreen extends AppCompatActivity {
 
     private RequestQueue queue;
@@ -28,6 +31,7 @@ public class ConfigurationScreen extends AppCompatActivity {
     private EditText password;
     private TextView errorText;
     private Button use;
+    private Configuration fetched;
 
     private String getURL() {
         return "http://ankin.info:3035/config?id=" + listId.getText();
@@ -45,6 +49,16 @@ public class ConfigurationScreen extends AppCompatActivity {
         errorText = findViewById(R.id.errorText);
         use = findViewById(R.id.use);
         use.setEnabled(false);
+        fetched = null;
+
+        use.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ConfigurationScreen.this, MainActivity.class);
+                intent.putExtra(ConfigurationScreen.class.toString(), (Serializable) fetched);
+                startActivity(intent);
+            }
+        });
 
         requestInternetPermissions();
         queue = Volley.newRequestQueue(this);
@@ -73,11 +87,13 @@ public class ConfigurationScreen extends AppCompatActivity {
                         .setAction("Action", null)
                         .show();
                 use.setEnabled(true);
+                fetched = c;
             }
 
             private void errorCallback(String error) {
                 errorText.setText(error);
                 use.setEnabled(false);
+                fetched = null;
                 Snackbar.make(view, R.string.fetchError, Snackbar.LENGTH_LONG)
                         .setAction("Action", null)
                         .show();
@@ -85,7 +101,6 @@ public class ConfigurationScreen extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                final View finalView = view;
                 this.view = view;
                 StringRequest stringRequest = new StringRequest(
                         Request.Method.GET, getURL(),

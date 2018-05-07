@@ -2,11 +2,38 @@ package pittydsa.org.nomenclator;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.nio.charset.Charset;
+
 /**
  * Created by cscadmin on 5/6/2018.
  */
 
-public class Configuration {
+public class Configuration implements Serializable {
+    public static final long serialVersionUID = 42L;
+
+    private void writeObject(java.io.ObjectOutputStream out)
+            throws IOException {
+        String json = Configuration.gson.toJson(this);
+        out.write(json.getBytes(Charset.forName("ASCII")));
+    }
+    private void readObject(java.io.ObjectInputStream in) throws IOException,
+            ClassNotFoundException {
+        byte buf[] = new byte[in.available()];
+        in.readFully(buf);
+        String json = new String(buf, Charset.forName("ASCII"));
+        Configuration c = gson.fromJson(json, Configuration.class);
+        item = c.getItem();
+        status = c.getStatus();
+    }
+
+    private void readObjectNoData() throws ObjectStreamException {
+        throw new ObjectStreamException() {
+        };
+    }
+
     private String status;
     private Configuration.Item item;
 
